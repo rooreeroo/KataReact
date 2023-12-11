@@ -61,7 +61,8 @@
   },
   "lint-staged" : {
     "*.js": [
-      "npm run lint:fix"
+      "npm run lint:fix",
+      "npm run format"
     ]
   }
 }
