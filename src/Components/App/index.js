@@ -71,7 +71,9 @@ export default class App extends React.Component {
 
   filteredItems() {
     const { todos, filter } = this.state
+
     return todos.filter((item) => {
+
       if (filter === 'All') return true
       if (filter === 'Active') return !item.checked
       if (filter === 'Completed') return item.checked
