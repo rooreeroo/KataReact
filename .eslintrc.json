@@ -32,6 +32,7 @@
     "import/no-unresolved": [2, { "caseSensitive": false }],
     "react/no-unused-class-component-methods": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "jsx-a11y/control-has-associated-label": "off",
     "no-param-reassign": [2, { "props": false }],
     "no-nested-ternary": "off",
     "object-curly-newline": "off",
