@@ -49,7 +49,6 @@ export default class NewTaskForm extends React.Component {
           onChange={(event) => this.setState({ sec: event.target.value })}
         />
         <input type="submit" hidden="hidden" />
-        {/* autoFocus="autofocus" style={{ display: 'none' }} */}
       </form>
     )
   }
@@ -60,7 +59,6 @@ NewTaskForm.propTypes = {
   title: PropTypes.string,
   addItem: PropTypes.func.isRequired,
 }
-
 NewTaskForm.defaultProps = {
   placeholder: 'What needs to be done?',
   title: 'Todos',

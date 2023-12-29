@@ -70,19 +70,6 @@ export default class App extends React.Component {
   changeFilter = (data) => {
     this.setState(({ todos }) => ({
       filter: data,
-<<<<<<< Updated upstream
-    })
-  }
-
-  filteredItems() {
-    const { todos, filter } = this.state
-    return todos.filter((item) => {
-      if (filter === 'All') return true
-      if (filter === 'Active') return !item.checked
-      if (filter === 'Completed') return item.checked
-      return true
-    })
-=======
       todos: todos.map((task) => {
         let display = true
         if (data === 'Active') display = !task.checked
@@ -91,7 +78,6 @@ export default class App extends React.Component {
         return { ...task, display: display }
       }),
     }))
->>>>>>> Stashed changes
   }
 
   render() {

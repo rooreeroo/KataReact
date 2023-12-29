@@ -1,6 +1,6 @@
 import React from 'react'
 import './style.css'
-// import propTypes from 'prop-types'
+import propTypes from 'prop-types'
 
 export default class TaskTimer extends React.Component {
   constructor(props) {
@@ -96,8 +96,8 @@ TaskTimer.defaultProps = {
 }
 
 TaskTimer.propTypes = {
-  done: propTypes.boolean,
+  done: propTypes.bool,
   subTime: propTypes.func,
   id: propTypes.number,
-  timer: propTypes.number
+  timer: propTypes.number,
 }
