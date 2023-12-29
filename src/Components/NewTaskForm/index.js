@@ -16,7 +16,14 @@ export default class NewTaskForm extends React.Component {
     const { value, min, sec } = this.state
     const { addItem } = this.props
     event.preventDefault()
-    if (value.trim() && min.trim().length !== 0 && sec.trim().length !== 0) addItem(value, min, sec)
+    if (
+      value.trim() &&
+      Number.isInteger(Number(min.trim())) &&
+      min.trim().length !== 0 &&
+      Number.isInteger(Number(sec.trim())) &&
+      sec.trim().length !== 0
+    )
+      addItem(value, min, sec)
     this.setState({
       value: '',
       min: '',

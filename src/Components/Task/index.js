@@ -15,6 +15,15 @@ export default class Task extends React.Component {
     }
   }
 
+  componentDidMount() {
+    document.addEventListener('keydown', this.escFunction, false)
+    document.addEventListener('click', (e) => this.backDrop(e), false)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.escFunction, false)
+  }
+
   handleSubmit(event) {
     const { value } = this.state
     event.preventDefault()
@@ -27,6 +36,30 @@ export default class Task extends React.Component {
       value: '',
       editing: false,
     })
+  }
+
+  backDrop = (e) => {
+    const withinBoundaries = e.composedPath().includes(document.querySelector('.edit'))
+    const outLine = e.composedPath().includes(document.querySelector('.icon-edit'))
+
+    if (!withinBoundaries && !outLine) {
+      const { editing } = this.state
+      if (editing) {
+        this.setState({
+          value: '',
+          editing: false,
+        })
+      }
+    }
+  }
+
+  escFunction = (event) => {
+    if (event.key === 'Escape') {
+      this.setState({
+        value: '',
+        editing: false,
+      })
+    }
   }
 
   render() {
