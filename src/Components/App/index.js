@@ -16,12 +16,23 @@ export default class App extends React.Component {
     }
   }
 
-  addItem = (value) => {
+  subTime = (id, newTimer) => {
+    this.setState(({ todos }) => ({
+      todos: todos.map((item) => {
+        if (item.id === id) item.timer = newTimer
+        return item
+      }),
+    }))
+  }
+
+  addItem = (value, min, sec) => {
     const data = {
       id: (this.maxId += 1),
       body: value,
+      display: true,
       checked: false,
       date: new Date(),
+      timer: Number(min) * 60 + Number(parseInt(sec, 10)),
     }
     this.setState(({ todos }) => ({ todos: [...todos, data] }))
   }
@@ -32,24 +43,18 @@ export default class App extends React.Component {
     }))
   }
 
-  changeCheck = (id, data) => {
-    // const checkedTodos = this.state.todos.map((item) => {
-    //   if (id === item.id) item.checked = data
-    //   return item
-    // })
+  changeCheck = (id) => {
     this.setState(({ todos }) => ({
       todos: todos.map((item) => {
-        if (id === item.id) item.checked = data
+        if (id === item.id) item.checked = !item.checked
         return item
       }),
     }))
+    // eslint-disable-next-line
+    this.changeFilter(this.state.filter)
   }
 
   editItem = (id, text) => {
-    // const editeditem = this.state.todos.map((item) => {
-    //   if (item.id === id) item.body = text
-    //   return item
-    // })
     this.setState(({ todos }) => ({
       todos: todos.map((item) => {
         if (item.id === id) item.body = text
@@ -59,13 +64,13 @@ export default class App extends React.Component {
   }
 
   clearCompleted = () => {
-    // const complited = this.state.todos.filter((item) => !item.checked)
     this.setState(({ todos }) => ({ todos: todos.filter((item) => !item.checked) }))
   }
 
   changeFilter = (data) => {
-    this.setState({
+    this.setState(({ todos }) => ({
       filter: data,
+<<<<<<< Updated upstream
     })
   }
 
@@ -77,6 +82,16 @@ export default class App extends React.Component {
       if (filter === 'Completed') return item.checked
       return true
     })
+=======
+      todos: todos.map((task) => {
+        let display = true
+        if (data === 'Active') display = !task.checked
+        if (data === 'Completed') display = task.checked
+        // eslint-disable-next-line
+        return { ...task, display: display }
+      }),
+    }))
+>>>>>>> Stashed changes
   }
 
   render() {
@@ -88,7 +103,8 @@ export default class App extends React.Component {
           changeCheck={this.changeCheck}
           editItem={this.editItem}
           deleteItem={this.deleteItem}
-          todos={this.filteredItems()}
+          todos={todos}
+          subTime={this.subTime}
         />
         <Footer
           changeFilter={this.changeFilter}

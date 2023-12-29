@@ -4,14 +4,18 @@ import PropTypes from 'prop-types'
 
 import Task from '../Task'
 
-export default function TaskList({ todos, changeCheck, editItem, deleteItem }) {
-  return (
-    <ul className="todo-list">
-      {todos.map((todo) => (
-        <Task key={todo.id} changeCheck={changeCheck} editItem={editItem} deleteItem={deleteItem} todo={todo} />
-      ))}
-    </ul>
-  )
+export default function TaskList({ todos, changeCheck, editItem, deleteItem, subTime }) {
+  const items = todos.map((todo) => (
+    <Task
+      key={todo.id}
+      changeCheck={changeCheck}
+      editItem={editItem}
+      deleteItem={deleteItem}
+      todo={todo}
+      subTime={subTime}
+    />
+  ))
+  return <ul className="todo-list">{items}</ul>
 }
 
 TaskList.propTypes = {

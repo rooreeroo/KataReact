@@ -1,0 +1,35 @@
+.timer-stop:after {
+    content: '⏸';
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.timer-start:after {
+    content: '▶';
+}
+
+.timer-start,
+.timer-stop {
+    width: 18px;
+    height: 18px;
+    position: relative;
+    cursor: pointer;
+    color: #cc9a9a;
+}
+
+.timer-start:disabled,
+.timer-stop:disabled {
+    color: gray;
+    cursor: default;
+}
+
+.timer {
+    font-size: 16px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}

@@ -4,6 +4,8 @@ import KG from 'date-fns/locale/en-AU'
 import PropTypes from 'prop-types'
 import './style.css'
 
+import TaskTimer from '../TaskTimer'
+
 export default class Task extends React.Component {
   constructor() {
     super()
@@ -28,21 +30,21 @@ export default class Task extends React.Component {
   }
 
   render() {
-    const { changeCheck, todo, deleteItem } = this.props
-    const { body, id, checked, date } = todo
+    const { changeCheck, todo, deleteItem, subTime } = this.props
+    const { body, id, checked, date, timer, display } = todo
     const { editing, value } = this.state
+    let classNames = ''
+    classNames += !display ? 'hidden' : ''
+    classNames += checked ? ' completed' : ''
+    classNames += editing ? ' editing' : ''
+
     return (
-      <li className={checked ? 'completed' : editing ? 'editing' : null}>
+      <li className={classNames}>
         <div className="view">
-          <input
-            id={id}
-            className="toggle"
-            type="checkbox"
-            onChange={(event) => changeCheck(id, event.target.checked)}
-            checked={checked}
-          />
+          <input id={id} className="toggle" type="checkbox" onChange={() => changeCheck(id)} checked={checked} />
           <label htmlFor={id}>
             <span className="description">{body}</span>
+            <TaskTimer done={checked} subTime={subTime} id={id} timer={timer} />
             <span className="created">
               {`created ${formatDistanceToNow(date, {
                 includeSeconds: true,
