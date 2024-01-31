@@ -1,91 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import propTypes from 'prop-types'
 
-export default class TaskTimer extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      timerId: null,
-    }
-  }
+import useInterval from '../../hooks/useInterval'
 
-  componentDidUpdate(prevProps) {
-    const { timer, done } = this.props
-    const { timerId } = this.state
-    if ((prevProps.timer !== timer && timer <= 0) || done) {
-      clearInterval(timerId)
-    }
-  }
+export default function TaskTimer({ done, subTime, timer, id }) {
+  const [timerId, setTimerId] = useState(false)
 
-  componentWillUnmount() {
-    this.stopTimer()
-  }
-
-  timeToString = () => {
-    const { timer } = this.props
+  const timeToString = () => {
     const min = Math.floor(timer / 60)
     const sec = timer % 60
     return `${min}:${sec.toString().padStart(2, '0')}`
   }
 
-  startTimer = () => {
-    const { subTime, timer, id } = this.props
-    const { timerId } = this.state
-    let newTimer
+  const stopTimer = () => {
+    setTimerId(false)
+  }
+
+  useEffect(() => {
+    if (timer <= 0 || done) {
+      stopTimer()
+    }
+  }, [timer])
+
+  const startTimer = () => {
     if (!timerId && timer > 0) {
-      this.setState({
-        timerId: setInterval(() => {
-          // eslint-disable-next-line
-          newTimer = this.props.timer - 1
-          subTime(id, newTimer)
-        }, 1000),
-      })
+      setTimerId(true)
     }
   }
-  // Без отключения eslint
-  // startTimer = () => {
-  //   const { subTime, timer, id } = this.props
-  //   const { timerId } = this.state
-  //   let newTimer = timer
-  //   if (!timerId && timer > 0) {
-  //     this.setState({
-  //       timerId: setInterval(() => {
-  //         newTimer -= 1
-  //         subTime(id, newTimer)
-  //       }, 1000),
-  //     })
-  //   }
-  // }
 
-  stopTimer = () => {
-    const { timerId } = this.state
-    clearInterval(timerId)
-    this.setState({ timerId: null })
-  }
+  useInterval(
+    () => {
+      subTime(id, timer - 1)
+    },
+    timerId ? 1000 : null
+  )
 
-  render() {
-    const { done, timer } = this.props
-    return (
-      <span className="timer">
-        <button
-          className="timer-start"
-          type="button"
-          disabled={done || timer === 0}
-          onClick={this.startTimer}
-          name="true"
-        />
-        <button
-          className="timer-stop"
-          type="button"
-          disabled={done || timer === 0}
-          onClick={this.stopTimer}
-          name="false"
-        />
-        {this.timeToString()}
-      </span>
-    )
-  }
+  return (
+    <span className="timer">
+      <button className="timer-start" type="button" disabled={done || timer === 0} onClick={startTimer} name="true" />
+      <button className="timer-stop" type="button" disabled={done || timer === 0} onClick={stopTimer} name="false" />
+      {timeToString()}
+    </span>
+  )
 }
 
 TaskTimer.defaultProps = {
